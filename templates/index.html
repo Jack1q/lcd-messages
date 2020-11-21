@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+    <!-- EMBED STREAM -->
+    <!-- DESIGN SITE LATER! -->
+
+    <button type="button" id="A" onclick="redirect('A')">A</button>
+    <button type="button" id="B" onclick="redirect('B')">B</button>
+    <!-- <button type="button" id="C" onclick="redirect('C')">C</button>
+    <button type="button" id="D" onclick="redirect('D')">D</button> -->
+
+    <script>
+        function redirect(letter) {
+            var current_address = window.location.href;
+            if (current_address.indexOf('button')>-1) {
+                window.location.replace(current_address.substring(0,current_address.lastIndexOf('/')+1)+letter)
+            }
+            else {
+                window.location.replace(current_address+'/button/'+letter);
+            }
+        }
+    </script>
+</html>

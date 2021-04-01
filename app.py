@@ -2,7 +2,7 @@ from flask import Flask, render_template, jsonify, request, flash, redirect, url
 from forms import MessageForm
 
 app = Flask(__name__, template_folder='templates')
-app.config['SECRET_KEY'] = 'changethiskey19581'
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
 
 current_message = 'Hello!'
 

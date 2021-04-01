@@ -1,5 +1,6 @@
 from flask import Flask, render_template, jsonify, request, flash, redirect, url_for
 from forms import MessageForm
+import os
 
 app = Flask(__name__, template_folder='templates')
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')

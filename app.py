@@ -1,35 +1,26 @@
-from flask import Flask, render_template, jsonify, request
+from flask import Flask, render_template, jsonify, request, flash, redirect, url_for
+from forms import MessageForm
 
 app = Flask(__name__, template_folder='templates')
+app.config['SECRET_KEY'] = 'changethiskey19581'
 
-status = {
-    'A' : False,
-    'B' : False#,
-    # 'C' : False,
-    # 'D' : False
-}
+current_message = 'Hello!'
 
-@app.route('/')
-def main():
-    return render_template('index.html')
+@app.route('/', methods=['GET','POST'])
+@app.route('/home', methods=['GET','POST'])
+def home():
+    global current_message
+    form = MessageForm()
+    if form.validate_on_submit():
+        message = form.message.data
+        current_message = message[:16]
+        flash(f'Your message \'{current_message}\' has been submitted and will be displayed shortly!', 'success')
+        return redirect(url_for('home'))
+    return render_template('index.html', form=form, current_message=current_message)
 
-@app.route('/button/<string:letter>')
-def button(letter):
-    if letter in status:
-        status[letter] = not status[letter]
-    return render_template('index.html')
-
-@app.route('/status')
-def statuscheck():
-    return jsonify(status)
+@app.route('/message')
+def get_message():
+    return current_message
 
 if __name__ == '__main__':
     app.run(debug=True)
-
-
-### CODE THIS INTO PI! ###
-# import requests
-# while True:
-#     light_values = requests.get('R4ndoma$$l1nk.com/status').json()
-#     for light in light_values:
-#         led_switch = light_values[light] # should be true or false :P

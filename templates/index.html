@@ -1,22 +1,55 @@
 <!DOCTYPE html>
 <html>
-    <!-- EMBED STREAM -->
-    <!-- DESIGN SITE LATER! -->
-
-    <button type="button" id="A" onclick="redirect('A')">A</button>
-    <button type="button" id="B" onclick="redirect('B')">B</button>
-    <!-- <button type="button" id="C" onclick="redirect('C')">C</button>
-    <button type="button" id="D" onclick="redirect('D')">D</button> -->
-
-    <script>
-        function redirect(letter) {
-            var current_address = window.location.href;
-            if (current_address.indexOf('button')>-1) {
-                window.location.replace(current_address.substring(0,current_address.lastIndexOf('/')+1)+letter)
-            }
-            else {
-                window.location.replace(current_address+'/button/'+letter);
-            }
-        }
-    </script>
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='main.css') }}">
+  </head>
+  <main role="main" class="container">
+    <h2>Send me a message</h2>
+    <div class="row">
+      <div class="col-md-6">
+        <body>
+          <div class="content-section">
+            <form method="POST" action="">
+              {{ form.hidden_tag() }}
+              <fieldset class="form-group">
+                <div class="form-group">
+                  {{ form.message.label(class="form-control-label") }}
+                  {% if form.message.errors %}
+                    {{ form.message(class="form-control form-control-lg is-invalid") }}
+                    <div class="invalid-feedback">
+                      {% for error in form.message.errors %}
+                        <span>{{ error }}</span>
+                      {% endfor %}
+                    </div>
+                  {% else %}
+                    {{ form.message(class="form-control form-control-lg")}}
+                  {% endif %}
+                </div>
+              </fieldset>
+              <div class="form-group">
+                {{ form.submit(class="btn btn-outline-info") }}
+              </div>
+            </form>
+          </div>
+          {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+              {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">
+                  {{ message }}
+                </div>
+              {% endfor %}
+            {% endif %}
+          {% endwith %}
+          <div class="alert alert-info">
+            Current message being displayed: <b>{{ current_message }}</b>
+          </div>
+        </body>
+      </div>
+    </div>
+  </main>
 </html>
